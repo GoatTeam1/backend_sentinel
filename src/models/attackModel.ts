@@ -1,5 +1,4 @@
-import { PrismaClient } from "../generated/prisma/client";
-const prisma = new PrismaClient();
+import prisma from "../config/dbConnection";
 
 export class attackModel {
     async getAllAttacks() {

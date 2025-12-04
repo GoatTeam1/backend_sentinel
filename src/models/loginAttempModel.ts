@@ -1,5 +1,6 @@
-import { PrismaClient, LoginAttemp } from "../generated/prisma/client";
-const prisma = new PrismaClient();
+import { LoginAttemp } from "../generated/prisma/client";
+import prisma from "../config/dbConnection";
+
 
 export class loginAttempModel {
     async getAllLoginAttemps() {

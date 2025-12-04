@@ -1,7 +1,7 @@
-import { PrismaClient, User } from "../generated/prisma/client";
+import { User } from "../generated/prisma/client";
 import { hashPassword, comparePassword } from "../utils/bcrypt";
+import prisma from "../config/dbConnection";
 
-const prisma = new PrismaClient();
 export class userModel {
     async getAllUsers() {
         const users = await prisma.user.findMany();

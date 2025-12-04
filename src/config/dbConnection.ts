@@ -2,7 +2,9 @@ import { PrismaClient } from "../generated/prisma/client";
 import ora from "ora";
 import chalk from "chalk";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL,
+});
 
 export async function connectToMongo() {
   const spinner = ora({

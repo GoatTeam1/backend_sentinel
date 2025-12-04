@@ -1,5 +1,5 @@
-import { PrismaClient } from "../generated/prisma/client";
-const prisma = new PrismaClient();
+import prisma from "../config/dbConnection";
+
 
 export class geolocationModel {
     // Return geolocation stored inside an IpInfo

@@ -13,10 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectToMongo = connectToMongo;
-const client_1 = require("../generated/prisma/client");
+require("dotenv/config");
+const client_1 = require("@prisma/client");
 const ora_1 = __importDefault(require("ora"));
 const chalk_1 = __importDefault(require("chalk"));
-const prisma = new client_1.PrismaClient();
+// Read DATABASE_URL from environment. If present, pass it using the
+// `datasources` option so the PrismaClient uses the intended DB.
+const datasourceUrl = process.env.DATABASE_URL;
+const createPrisma = () => datasourceUrl
+    ? new client_1.PrismaClient({ datasources: { db: { url: datasourceUrl } } })
+    : new client_1.PrismaClient();
+const prisma = global.__prismaClient || createPrisma();
+if (process.env.NODE_ENV !== "production") {
+    global.__prismaClient = prisma;
+}
 function connectToMongo() {
     return __awaiter(this, void 0, void 0, function* () {
         const spinner = (0, ora_1.default)({

@@ -10,13 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.geolocationModel = void 0;
-const client_1 = require("../generated/prisma/client");
-const prisma = new client_1.PrismaClient();
+const prisma_1 = require("../lib/prisma");
 class geolocationModel {
     // Return geolocation stored inside an IpInfo
     getGeoForIpInfo(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const ipInfo = yield prisma.ipInfo.findUnique({ where: { id } });
+            const ipInfo = yield prisma_1.prisma.ipInfo.findUnique({ where: { id } });
             if (!ipInfo)
                 throw new Error("IpInfo not found");
             return ipInfo.geolocation;
@@ -24,16 +23,16 @@ class geolocationModel {
     }
     updateGeoForIpInfo(id, geo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existing = yield prisma.ipInfo.findUnique({ where: { id } });
+            const existing = yield prisma_1.prisma.ipInfo.findUnique({ where: { id } });
             if (!existing)
                 throw new Error("IpInfo not found");
-            return yield prisma.ipInfo.update({ where: { id }, data: { geolocation: geo } });
+            return yield prisma_1.prisma.ipInfo.update({ where: { id }, data: { geolocation: geo } });
         });
     }
     // Similar for Attack
     getGeoForAttack(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const attack = yield prisma.attack.findUnique({ where: { id } });
+            const attack = yield prisma_1.prisma.attack.findUnique({ where: { id } });
             if (!attack)
                 throw new Error("Attack not found");
             return attack.geolocation;
@@ -41,10 +40,10 @@ class geolocationModel {
     }
     updateGeoForAttack(id, geo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existing = yield prisma.attack.findUnique({ where: { id } });
+            const existing = yield prisma_1.prisma.attack.findUnique({ where: { id } });
             if (!existing)
                 throw new Error("Attack not found");
-            return yield prisma.attack.update({ where: { id }, data: { geolocation: geo } });
+            return yield prisma_1.prisma.attack.update({ where: { id }, data: { geolocation: geo } });
         });
     }
 }

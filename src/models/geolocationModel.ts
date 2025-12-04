@@ -1,4 +1,5 @@
-import prisma from "../config/dbConnection";
+import { prisma } from "../lib/prisma"
+
 
 
 export class geolocationModel {

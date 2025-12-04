@@ -10,13 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userModel = void 0;
-const client_1 = require("../generated/prisma/client");
 const bcrypt_1 = require("../utils/bcrypt");
-const prisma = new client_1.PrismaClient();
+const prisma_1 = require("../lib/prisma");
 class userModel {
     getAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            const users = yield prisma.user.findMany();
+            const users = yield prisma_1.prisma.user.findMany();
             if (users.length === 0) {
                 throw new Error("No users found");
             }
@@ -25,7 +24,7 @@ class userModel {
     }
     getUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield prisma.user.findUnique({
+            const user = yield prisma_1.prisma.user.findUnique({
                 where: { id },
             });
             if (!user) {
@@ -36,7 +35,7 @@ class userModel {
     }
     createUser(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingUser = yield prisma.user.findFirst({
+            const existingUser = yield prisma_1.prisma.user.findFirst({
                 where: {
                     OR: [
                         { email: data.email },
@@ -53,18 +52,18 @@ class userModel {
                 }
             }
             data.password = yield (0, bcrypt_1.hashPassword)(data.password);
-            return yield prisma.user.create({ data });
+            return yield prisma_1.prisma.user.create({ data });
         });
     }
     updateUser(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingUser = yield prisma.user.findUnique({
+            const existingUser = yield prisma_1.prisma.user.findUnique({
                 where: { id },
             });
             if (!existingUser) {
                 throw new Error("User not found");
             }
-            return yield prisma.user.update({
+            return yield prisma_1.prisma.user.update({
                 where: { id },
                 data,
             });
@@ -72,27 +71,27 @@ class userModel {
     }
     deleteUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingUser = yield prisma.user.findUnique({
+            const existingUser = yield prisma_1.prisma.user.findUnique({
                 where: { id },
             });
             if (!existingUser) {
                 throw new Error("User not found");
             }
-            return yield prisma.user.delete({
+            return yield prisma_1.prisma.user.delete({
                 where: { id },
             });
         });
     }
     changePassword(id, newPassword) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingUser = yield prisma.user.findUnique({
+            const existingUser = yield prisma_1.prisma.user.findUnique({
                 where: { id },
             });
             if (!existingUser) {
                 throw new Error("User not found");
             }
             existingUser.password = yield (0, bcrypt_1.hashPassword)(newPassword);
-            return yield prisma.user.update({
+            return yield prisma_1.prisma.user.update({
                 where: { id },
                 data: { password: existingUser.password },
             });
@@ -100,7 +99,7 @@ class userModel {
     }
     signIn(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield prisma.user.findUnique({
+            const user = yield prisma_1.prisma.user.findUnique({
                 where: { email },
             });
             if (!user) {

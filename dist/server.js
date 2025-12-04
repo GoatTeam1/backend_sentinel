@@ -23,7 +23,6 @@ const loginAttempRoutes_1 = __importDefault(require("./routes/loginAttempRoutes"
 const geolocationRoutes_1 = __importDefault(require("./routes/geolocationRoutes"));
 const errorApp_1 = require("./utils/errorApp");
 const morgan_1 = __importDefault(require("morgan"));
-const dbConnection_1 = require("./config/dbConnection");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -47,7 +46,6 @@ class Server {
     listen() {
         this.app.listen(this.app.get('port'), () => __awaiter(this, void 0, void 0, function* () {
             console.log(`Server running on port ${this.app.get('port')}`);
-            yield (0, dbConnection_1.connectToMongo)();
         }));
     }
     routes() {

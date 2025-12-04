@@ -8,7 +8,7 @@ import loginAttempRoutes from './routes/loginAttempRoutes';
 import geolocationRoutes from './routes/geolocationRoutes';
 import { errorApp } from './utils/errorApp';
 import morgan from 'morgan';
-import { connectToMongo } from './config/dbConnection';
+
 
 export class Server {
     private app: express.Express;
@@ -41,7 +41,6 @@ export class Server {
     listen() {
         this.app.listen(this.app.get('port'), async () => {
             console.log(`Server running on port ${this.app.get('port')}`);
-            await connectToMongo();
         });
 
     }

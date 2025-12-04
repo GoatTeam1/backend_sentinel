@@ -10,12 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ipInfoModel = void 0;
-const client_1 = require("../generated/prisma/client");
-const prisma = new client_1.PrismaClient();
+const prisma_1 = require("../lib/prisma");
 class ipInfoModel {
     getAllIpInfos() {
         return __awaiter(this, void 0, void 0, function* () {
-            const ipInfos = yield prisma.ipInfo.findMany();
+            const ipInfos = yield prisma_1.prisma.ipInfo.findMany();
             if (ipInfos.length === 0) {
                 throw new Error("No IP info records found");
             }
@@ -24,7 +23,7 @@ class ipInfoModel {
     }
     getIpInfoById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const ipInfo = yield prisma.ipInfo.findUnique({
+            const ipInfo = yield prisma_1.prisma.ipInfo.findUnique({
                 where: { id },
             });
             if (!ipInfo) {
@@ -35,18 +34,18 @@ class ipInfoModel {
     }
     createIpInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.ipInfo.create({ data });
+            return yield prisma_1.prisma.ipInfo.create({ data });
         });
     }
     updateIpInfo(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingIpInfo = yield prisma.ipInfo.findUnique({
+            const existingIpInfo = yield prisma_1.prisma.ipInfo.findUnique({
                 where: { id },
             });
             if (!existingIpInfo) {
                 throw new Error("IP info record not found");
             }
-            return yield prisma.ipInfo.update({
+            return yield prisma_1.prisma.ipInfo.update({
                 where: { id },
                 data,
             });
@@ -54,20 +53,20 @@ class ipInfoModel {
     }
     deleteIpInfo(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingIpInfo = yield prisma.ipInfo.findUnique({
+            const existingIpInfo = yield prisma_1.prisma.ipInfo.findUnique({
                 where: { id },
             });
             if (!existingIpInfo) {
                 throw new Error("IP info record not found");
             }
-            return yield prisma.ipInfo.delete({
+            return yield prisma_1.prisma.ipInfo.delete({
                 where: { id },
             });
         });
     }
     cleanByLastActivity(threshold) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.ipInfo.deleteMany({
+            return yield prisma_1.prisma.ipInfo.deleteMany({
                 where: {
                     lastActivity: { lt: threshold } // Assuming 'lastActivity' is a Date field in IpInfo
                 }

@@ -1,6 +1,7 @@
-import { User } from "../generated/prisma/client";
+import { User } from "@prisma/client";
 import { hashPassword, comparePassword } from "../utils/bcrypt";
-import prisma from "../config/dbConnection";
+import { prisma } from "../lib/prisma"
+
 
 export class userModel {
     async getAllUsers() {

@@ -1,4 +1,5 @@
-import prisma from "../config/dbConnection";
+import { IpInfo } from "@prisma/client";
+import { prisma } from "../lib/prisma"
 
 export class ipInfoModel {
     async getAllIpInfos() {

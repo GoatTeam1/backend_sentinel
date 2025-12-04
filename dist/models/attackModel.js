@@ -10,12 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.attackModel = void 0;
-const client_1 = require("../generated/prisma/client");
-const prisma = new client_1.PrismaClient();
+const prisma_1 = require("../lib/prisma");
 class attackModel {
     getAllAttacks() {
         return __awaiter(this, void 0, void 0, function* () {
-            const attacks = yield prisma.attack.findMany();
+            const attacks = yield prisma_1.prisma.attack.findMany();
             if (attacks.length === 0) {
                 throw new Error("No attacks found");
             }
@@ -24,7 +23,7 @@ class attackModel {
     }
     getAttackById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const attack = yield prisma.attack.findUnique({ where: { id } });
+            const attack = yield prisma_1.prisma.attack.findUnique({ where: { id } });
             if (!attack) {
                 throw new Error("Attack not found");
             }
@@ -33,34 +32,34 @@ class attackModel {
     }
     createAttack(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.attack.create({ data });
+            return yield prisma_1.prisma.attack.create({ data });
         });
     }
     updateAttack(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existing = yield prisma.attack.findUnique({ where: { id } });
+            const existing = yield prisma_1.prisma.attack.findUnique({ where: { id } });
             if (!existing) {
                 throw new Error("Attack not found");
             }
-            return yield prisma.attack.update({ where: { id }, data });
+            return yield prisma_1.prisma.attack.update({ where: { id }, data });
         });
     }
     deleteAttack(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existing = yield prisma.attack.findUnique({ where: { id } });
+            const existing = yield prisma_1.prisma.attack.findUnique({ where: { id } });
             if (!existing) {
                 throw new Error("Attack not found");
             }
-            return yield prisma.attack.delete({ where: { id } });
+            return yield prisma_1.prisma.attack.delete({ where: { id } });
         });
     }
     // Geolocation helper: update geolocation for an attack
     updateAttackGeolocation(id, geolocation) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existing = yield prisma.attack.findUnique({ where: { id } });
+            const existing = yield prisma_1.prisma.attack.findUnique({ where: { id } });
             if (!existing)
                 throw new Error("Attack not found");
-            return yield prisma.attack.update({ where: { id }, data: { geolocation } });
+            return yield prisma_1.prisma.attack.update({ where: { id }, data: { geolocation } });
         });
     }
 }

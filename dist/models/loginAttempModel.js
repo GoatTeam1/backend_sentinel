@@ -10,12 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginAttempModel = void 0;
-const client_1 = require("../generated/prisma/client");
-const prisma = new client_1.PrismaClient();
+const prisma_1 = require("../lib/prisma");
 class loginAttempModel {
     getAllLoginAttemps() {
         return __awaiter(this, void 0, void 0, function* () {
-            const items = yield prisma.loginAttemp.findMany();
+            const items = yield prisma_1.prisma.loginAttemp.findMany();
             if (items.length === 0)
                 throw new Error("No login attempts found");
             return items;
@@ -23,7 +22,7 @@ class loginAttempModel {
     }
     getLoginAttempById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const item = yield prisma.loginAttemp.findUnique({ where: { id } });
+            const item = yield prisma_1.prisma.loginAttemp.findUnique({ where: { id } });
             if (!item)
                 throw new Error("Login attempt not found");
             return item;
@@ -31,25 +30,25 @@ class loginAttempModel {
     }
     createLoginAttemp(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.loginAttemp.create({ data });
+            return yield prisma_1.prisma.loginAttemp.create({ data });
         });
     }
     deleteLoginAttemp(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existing = yield prisma.loginAttemp.findUnique({ where: { id } });
+            const existing = yield prisma_1.prisma.loginAttemp.findUnique({ where: { id } });
             if (!existing)
                 throw new Error("Login attempt not found");
-            return yield prisma.loginAttemp.delete({ where: { id } });
+            return yield prisma_1.prisma.loginAttemp.delete({ where: { id } });
         });
     }
     getAttemptsByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.loginAttemp.findMany({ where: { username } });
+            return yield prisma_1.prisma.loginAttemp.findMany({ where: { username } });
         });
     }
     cleanOlderThan(threshold) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.loginAttemp.deleteMany({ where: { timestamp: { lt: threshold } } });
+            return yield prisma_1.prisma.loginAttemp.deleteMany({ where: { timestamp: { lt: threshold } } });
         });
     }
 }

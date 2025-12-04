@@ -1,5 +1,4 @@
-import prisma from "../config/dbConnection";
-
+import { prisma } from "../lib/prisma"
 export class attackModel {
     async getAllAttacks() {
         const attacks = await prisma.attack.findMany();

@@ -1,5 +1,5 @@
-import { LoginAttemp } from "../generated/prisma/client";
-import prisma from "../config/dbConnection";
+import { LoginAttemp } from "@prisma/client";
+import { prisma } from "../lib/prisma"
 
 
 export class loginAttempModel {

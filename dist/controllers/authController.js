@@ -11,7 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const userModel_1 = require("../models/userModel");
 const jwt_1 = require("../utils/jwt");
+const zod_1 = require("zod");
 const user = new userModel_1.userModel();
+const signInSchema = zod_1.z.object({
+    email: zod_1.z.string().email("Invalid email address"),
+    password: zod_1.z.string().min(6, "Password must be at least 6 characters long"),
+});
 const authController = {
     signIn(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -6,6 +6,7 @@ import ipInfoRoutes from './routes/ipInfoRoutes';
 import attackRoutes from './routes/attackRoutes';
 import loginAttempRoutes from './routes/loginAttempRoutes';
 import geolocationRoutes from './routes/geolocationRoutes';
+import reportRoutes from './routes/repots';
 import { errorApp } from './utils/errorApp';
 import morgan from 'morgan';
 
@@ -55,6 +56,7 @@ export class Server {
         this.app.use('/api/attacks', attackRoutes);
         this.app.use('/api/login-attempts', loginAttempRoutes);
         this.app.use('/api/geolocation', geolocationRoutes);
+        this.app.use('/api', reportRoutes);
 
 
         this.app.use((req, res, next) => {

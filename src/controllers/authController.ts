@@ -1,7 +1,14 @@
 import { userModel } from "../models/userModel";
 import { Request, Response } from "express";
 import { generateToken } from "../utils/jwt";
+import { z } from "zod";
+
 const user = new userModel();
+
+const signInSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters long"),
+});
 
 const authController = {
     async signIn(req: Request, res: Response) {

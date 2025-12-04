@@ -2,6 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import ipInfoRoutes from './routes/ipInfoRoutes';
+import attackRoutes from './routes/attackRoutes';
+import loginAttempRoutes from './routes/loginAttempRoutes';
+import geolocationRoutes from './routes/geolocationRoutes';
 import { errorApp } from './utils/errorApp';
 import morgan from 'morgan';
 import { connectToMongo } from './config/dbConnection';
@@ -43,8 +47,16 @@ export class Server {
     }
 
     routes() {
-        this.app.use('/api', userRoutes);
+        this.app.use('/healthcheck', (req, res) => {
+            res.status(200).json({ message: 'Server is running' });
+        });
+        this.app.use('/api/users', userRoutes);
+        this.app.use('/api/ip-info', ipInfoRoutes);
         this.app.use('/api/auth', authRoutes);
+        this.app.use('/api/attacks', attackRoutes);
+        this.app.use('/api/login-attempts', loginAttempRoutes);
+        this.app.use('/api/geolocation', geolocationRoutes);
+
 
         this.app.use((req, res, next) => {
             next(new errorApp('Route not found', 404));

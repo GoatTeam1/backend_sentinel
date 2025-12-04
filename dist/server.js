@@ -13,27 +13,57 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
+const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const ipInfoRoutes_1 = __importDefault(require("./routes/ipInfoRoutes"));
+const attackRoutes_1 = __importDefault(require("./routes/attackRoutes"));
+const loginAttempRoutes_1 = __importDefault(require("./routes/loginAttempRoutes"));
+const geolocationRoutes_1 = __importDefault(require("./routes/geolocationRoutes"));
+const errorApp_1 = require("./utils/errorApp");
+const morgan_1 = __importDefault(require("morgan"));
+const dbConnection_1 = require("./config/dbConnection");
 class Server {
-    constructor(app) {
-        this.app = app;
+    constructor() {
+        this.app = (0, express_1.default)();
         this.configuration();
+        this.middlewares();
+        this.routes();
     }
     configuration() {
         this.app.set('port', process.env.SERVER_PORT || 3000);
     }
     middlewares() {
         this.app.use((0, cors_1.default)({
-            origin: '*', 
+            origin: '*',
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }));
+        this.app.use(express_1.default.json());
+        this.app.use(express_1.default.urlencoded({ extended: false }));
+        this.app.use((0, morgan_1.default)('dev'));
     }
     listen() {
         this.app.listen(this.app.get('port'), () => __awaiter(this, void 0, void 0, function* () {
             console.log(`Server running on port ${this.app.get('port')}`);
-           
+            yield (0, dbConnection_1.connectToMongo)();
         }));
+    }
+    routes() {
+        this.app.use('/healthcheck', (req, res) => {
+            res.status(200).json({ message: 'Server is running' });
+        });
+        this.app.use('/api/users', userRoutes_1.default);
+        this.app.use('/api/ip-info', ipInfoRoutes_1.default);
+        this.app.use('/api/auth', authRoutes_1.default);
+        this.app.use('/api/attacks', attackRoutes_1.default);
+        this.app.use('/api/login-attempts', loginAttempRoutes_1.default);
+        this.app.use('/api/geolocation', geolocationRoutes_1.default);
+        this.app.use((req, res, next) => {
+            next(new errorApp_1.errorApp('Route not found', 404));
+        });
+        return this.app;
     }
 }
 exports.Server = Server;

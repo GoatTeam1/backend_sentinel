@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const attackController_1 = require("../controllers/attackController");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const router = (0, express_1.Router)();
+router.get('/', authMiddleware_1.authMiddleware, attackController_1.attackController.getAttacks);
+router.get('/:id', authMiddleware_1.authMiddleware, attackController_1.attackController.getAttackById);
+router.post('/', attackController_1.attackController.createAttack);
+router.put('/:id', authMiddleware_1.authMiddleware, attackController_1.attackController.updateAttack);
+router.delete('/delete/:id', authMiddleware_1.authMiddleware, attackController_1.attackController.deleteAttack);
+router.put('/:id/geolocation', authMiddleware_1.authMiddleware, attackController_1.attackController.updateGeolocation);
+exports.default = router;

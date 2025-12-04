@@ -4,9 +4,9 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/users", authMiddleware, userController.getAllUsers);
-router.post("/users", authMiddleware, userController.createUser);
-router.get("/users/:id", authMiddleware, userController.getUserById);
-router.delete("/users/delete/:id", authMiddleware, userController.deleteUser);
+router.get("/", authMiddleware, userController.getAllUsers);
+router.post("/", authMiddleware, userController.createUser);
+router.get("/:id", authMiddleware, userController.getUserById);
+router.delete("/delete/:id", authMiddleware, userController.deleteUser);
 
 export default router;

@@ -11,7 +11,6 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -21,4 +20,36 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model LoginAttemp {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String
+  password  String
+  timestamp DateTime @default(now())
+}
+
+model IpInfo {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  ip           String
+  lastActivity DateTime    @default(now())
+  geolocation  Geolocation
+}
+
+model Attack {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  ip          String
+  port        Int
+  protocol    String
+  os          String
+  timestamp   DateTime    @default(now())
+  payload     String
+  tools       Json
+  behavior    String
+  geolocation Geolocation
+}
+
+type Geolocation {
+  country String
+  city    String
 }

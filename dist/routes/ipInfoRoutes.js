@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ipInfoController_1 = require("../controllers/ipInfoController");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const router = (0, express_1.Router)();
+router.get('/', authMiddleware_1.authMiddleware, ipInfoController_1.ipInfoController.getIpInfos);
+router.get('/:id', authMiddleware_1.authMiddleware, ipInfoController_1.ipInfoController.getIpInfoById);
+router.post('/', ipInfoController_1.ipInfoController.createIpInfo);
+router.put('/:id', authMiddleware_1.authMiddleware, ipInfoController_1.ipInfoController.updateIpInfo);
+router.delete('/delete/:id', authMiddleware_1.authMiddleware, ipInfoController_1.ipInfoController.deleteIpInfo);
+router.delete('/clean', authMiddleware_1.authMiddleware, ipInfoController_1.ipInfoController.cleanByLastActivity);
+exports.default = router;
